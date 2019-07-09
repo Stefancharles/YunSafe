@@ -67,10 +67,15 @@ char *USER_GetJsonValue(char *cJson, char *Tag)
 *******************************************************************/
 void USER_DataAnalysisProcess(char *RxBuf)
 {
-	char *cmdid = NULL;
+	char *cmdid = NULL;//命令id编号
 	uint8_t TxetBuf[128];
-	if(strstr((const char *)RxBuf, (const char *)PING_REQ) != NULL)//心跳请求？
+
+	if(strstr((const char *)RxBuf, (const char *)PING_REQ) != NULL)//心跳请求
 	{
+		//PING_REQ: 心跳请求,S->C.见文档，TCP设备接入协议
+		//PING_RESP: 心跳响应.C<->S
+		//心跳包就是在客户端和服务器间定时通知对方自己状态的一个自己定义的命令字.
+		//按照一定的时间间隔发送，类似于心跳，所以叫做心跳包。
 		if(ESP8266_IpSend((char *)PING_RSP, strlen((const char *)PING_RSP)) < 0)//响应心跳
 		{//发送失败
 			printf("发送心跳包失败！\r\n");
@@ -80,6 +85,8 @@ void USER_DataAnalysisProcess(char *RxBuf)
 			printf("心跳包！\r\n");
 		}
 	}
+
+	//apitag:传感标识名(可空)
 	else if(strstr((const char *)RxBuf, (const char *)"\"t\":5") != NULL)//命令请求？
 	{
 		if(strstr((const char *)RxBuf, (const char *)"\"apitag\":\"defense\"") != NULL)//布防/撤防请求

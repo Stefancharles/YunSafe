@@ -21,92 +21,92 @@
 
 
 
-//ºê¶¨Òå
-#define AT_CWMODE	"AT+CWMODE_CUR=1" //ÉèÖÃÎª¡°station¡±Ä£Ê½
+//å®å®šä¹‰
+#define AT_CWMODE	"AT+CWMODE_CUR=1" //è®¾ç½®ä¸ºâ€œstationâ€æ¨¡å¼
 
-#define PING_REQ "$#AT#\r"//ĞÄÌøÇëÇó
-#define PING_RSP "$OK##\r"//ĞÄÌøÏìÓ¦
+#define PING_REQ "$#AT#\r"//å¿ƒè·³è¯·æ±‚
+#define PING_RSP "$OK##\r"//å¿ƒè·³å“åº”
 
 /*******************************************************************
-*º¯Êı£ºint8_t ESP8266_SetStation(void)
-*¹¦ÄÜ£ºESP8266ÉèÖÃÎªstationÄ£Ê½
-*ÊäÈë£ºÎŞ
-*Êä³ö£º
+*å‡½æ•°ï¼šint8_t ESP8266_SetStation(void)
+*åŠŸèƒ½ï¼šESP8266è®¾ç½®ä¸ºstationæ¨¡å¼
+*è¾“å…¥ï¼šæ— 
+*è¾“å‡ºï¼š
 		return = 0 ,sucess
 		return < 0 ,error
-*ÌØÊâËµÃ÷£º
+*ç‰¹æ®Šè¯´æ˜ï¼š
 *******************************************************************/
 int8_t ESP8266_SetStation(void);
 
 /*******************************************************************
-*º¯Êı£ºint8_t ESP8266_SetAP(void)
-*¹¦ÄÜ£ºÉèÖÃESP8266ÒªÁ¬½ÓµÄÈÈµãÃû³ÆºÍÃÜÂë
-*ÊäÈë£ºchar *wifi-ÈÈµãÃû³Æ char *pwd-ÈÈµãÃÜÂë
-*Êä³ö£º
+*å‡½æ•°ï¼šint8_t ESP8266_SetAP(void)
+*åŠŸèƒ½ï¼šè®¾ç½®ESP8266è¦è¿æ¥çš„çƒ­ç‚¹åç§°å’Œå¯†ç 
+*è¾“å…¥ï¼šchar *wifi-çƒ­ç‚¹åç§° char *pwd-çƒ­ç‚¹å¯†ç 
+*è¾“å‡ºï¼š
 		return = 0 ,sucess
 		return < 0 ,error
-*ÌØÊâËµÃ÷£º
+*ç‰¹æ®Šè¯´æ˜ï¼š
 *******************************************************************/
 int8_t ESP8266_SetAP(char *wifi, char *pwd);
 
 /*******************************************************************
-*º¯Êı£ºint8_t ESP8266_SetStation(void)
-*¹¦ÄÜ£ºESP8266½¨Á¢TCPÁ¬½Ó
-*ÊäÈë£º
-	char *IpAddr-IPµØÖ·£¬ÀıÈç£º120.77.58.34
-	uint16_t port-¶Ë¿ÚºÅ£¬È¡Öµ0~65535
-*Êä³ö£º
+*å‡½æ•°ï¼šint8_t ESP8266_SetStation(void)
+*åŠŸèƒ½ï¼šESP8266å»ºç«‹TCPè¿æ¥
+*è¾“å…¥ï¼š
+	char *IpAddr-IPåœ°å€ï¼Œä¾‹å¦‚ï¼š120.77.58.34
+	uint16_t port-ç«¯å£å·ï¼Œå–å€¼0~65535
+*è¾“å‡ºï¼š
 		return = 0 ,sucess
 		return < 0 ,error
-*ÌØÊâËµÃ÷£º
+*ç‰¹æ®Šè¯´æ˜ï¼š
 *******************************************************************/
 int8_t ESP8266_IpStart(char *IpAddr, uint16_t port);
 
 /*******************************************************************
-*º¯Êı£ºint8_t ESP8266_IpSend(char *IpBuf, uint8_t len)
-*¹¦ÄÜ£ºESP8266·¢ËÍÊı¾İ
-*ÊäÈë£º
-		char *IpBuf-IPÊı¾İ
-		uint8_t len-Êı¾İ³¤¶È
-*Êä³ö£º
+*å‡½æ•°ï¼šint8_t ESP8266_IpSend(char *IpBuf, uint8_t len)
+*åŠŸèƒ½ï¼šESP8266å‘é€æ•°æ®
+*è¾“å…¥ï¼š
+		char *IpBuf-IPæ•°æ®
+		uint8_t len-æ•°æ®é•¿åº¦
+*è¾“å‡ºï¼š
 		return = 0 ,sucess
 		return < 0 ,error
-*ÌØÊâËµÃ÷£º
+*ç‰¹æ®Šè¯´æ˜ï¼š
 *******************************************************************/
 int8_t ESP8266_IpSend(char *IpBuf, uint8_t len);
 
 /*******************************************************************
-*º¯Êı£ºint8_t ConnectToServer(void)
-*¹¦ÄÜ£ºÁ¬½Óµ½·şÎñÆ÷
-*ÊäÈë£ºÎŞ
-*Êä³ö£º
+*å‡½æ•°ï¼šint8_t ConnectToServer(void)
+*åŠŸèƒ½ï¼šè¿æ¥åˆ°æœåŠ¡å™¨
+*è¾“å…¥ï¼šæ— 
+*è¾“å‡ºï¼š
 		return = 0 ,sucess
 		return < 0 ,error
-*ÌØÊâËµÃ÷£º
+*ç‰¹æ®Šè¯´æ˜ï¼š
 *******************************************************************/
 int8_t ConnectToServer(char *DeviceID, char *SecretKey);
 
 /*******************************************************************
-*º¯Êı£ºint8_t ESP8266_SendSensor(uint8_t sensor)
-*¹¦ÄÜ£º·¢ËÍ´«¸ĞÊı¾İµ½·şÎñÆ÷
-*ÊäÈë£º
-	uint8_t sensor, ´«¸ĞÊıÖµ
-	char *TimeStr£¬²É¼¯Êı¾İÊ±µÄÊ±¼ä£¬ĞëÊÇyyyy-mm-dd hh:mm:ss¸ñÊ½
-*Êä³ö£º
+*å‡½æ•°ï¼šint8_t ESP8266_SendSensor(uint8_t sensor)
+*åŠŸèƒ½ï¼šå‘é€ä¼ æ„Ÿæ•°æ®åˆ°æœåŠ¡å™¨
+*è¾“å…¥ï¼š
+	uint8_t sensor, ä¼ æ„Ÿæ•°å€¼
+	char *TimeStrï¼Œé‡‡é›†æ•°æ®æ—¶çš„æ—¶é—´ï¼Œé¡»æ˜¯yyyy-mm-dd hh:mm:ssæ ¼å¼
+*è¾“å‡ºï¼š
 		return = 0 ,sucess
 		return < 0 ,error
-*ÌØÊâËµÃ÷£º
+*ç‰¹æ®Šè¯´æ˜ï¼š
 *******************************************************************/
 int8_t ESP8266_SendSensor(uint8_t sensor, char *TimeStr);
 
 /*******************************************************************
-*º¯Êı£ºuint8_t ESP8266_GetIpData(uint8_t *AtRxBuf, char *GetIpData)
-*¹¦ÄÜ£º½âÎö·şÎñÆ÷Êı¾İ
-*ÊäÈë£º
-		uint8_t *AtRxBuf £¬Ô­Ê¼AT´®¿Ú»º´æ
-		char *GetIpData £¬½ØÈ¡³öÀ´µÄItcp/ipÊı¾İ
-*Êä³ö£º·µ»ØÊÕµ½µÄIPÊı¾İ³¤¶È
-*ÌØÊâËµÃ÷£º
+*å‡½æ•°ï¼šuint8_t ESP8266_GetIpData(uint8_t *AtRxBuf, char *GetIpData)
+*åŠŸèƒ½ï¼šè§£ææœåŠ¡å™¨æ•°æ®
+*è¾“å…¥ï¼š
+		uint8_t *AtRxBuf ï¼ŒåŸå§‹ATä¸²å£ç¼“å­˜
+		char *GetIpData ï¼Œæˆªå–å‡ºæ¥çš„Itcp/ipæ•°æ®
+*è¾“å‡ºï¼šè¿”å›æ”¶åˆ°çš„IPæ•°æ®é•¿åº¦
+*ç‰¹æ®Šè¯´æ˜ï¼š
 	AT+CIPSEND=76
 	{"t":3,"datatype":2,"datas":{"alarm":{"2018-06-19 18:15:02":0}},"msgid":001}
 	+IPD,29:{"msgid":1,"status":0,"t":4}
@@ -114,11 +114,11 @@ int8_t ESP8266_SendSensor(uint8_t sensor, char *TimeStr);
 uint8_t ESP8266_GetIpData(uint8_t *AtRxBuf, char *GetIpData);
 	
 /*******************************************************************
-*º¯Êı£ºvoid ESP8266_DataAnalysisProcess(char *RxBuf)
-*¹¦ÄÜ£º½âÎö·şÎñÆ÷Êı¾İ
-*ÊäÈë£ºchar *RxBuf ·şÎñÆ÷ÏÂ·¢Êı¾İ
-*Êä³ö£º
-*ÌØÊâËµÃ÷£º
+*å‡½æ•°ï¼švoid ESP8266_DataAnalysisProcess(char *RxBuf)
+*åŠŸèƒ½ï¼šè§£ææœåŠ¡å™¨æ•°æ®
+*è¾“å…¥ï¼šchar *RxBuf æœåŠ¡å™¨ä¸‹å‘æ•°æ®
+*è¾“å‡ºï¼š
+*ç‰¹æ®Šè¯´æ˜ï¼š
 *******************************************************************/
 void ESP8266_DataAnalysisProcess(char *RxBuf);
 
