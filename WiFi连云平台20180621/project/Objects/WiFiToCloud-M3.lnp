@@ -1,0 +1,26 @@
+--cpu Cortex-M3
+".\objects\main.o"
+".\objects\stm32app.o"
+".\objects\hal_buzzer.o"
+".\objects\hal_timer2.o"
+".\objects\hal_usart1.o"
+".\objects\hal_uart4.o"
+".\objects\core_cm3.o"
+".\objects\stm32f10x_it.o"
+".\objects\system_stm32f10x.o"
+".\objects\startup_stm32f10x_hd.o"
+".\objects\misc.o"
+".\objects\stm32f10x_dma.o"
+".\objects\stm32f10x_gpio.o"
+".\objects\stm32f10x_pwr.o"
+".\objects\stm32f10x_rcc.o"
+".\objects\stm32f10x_tim.o"
+".\objects\stm32f10x_usart.o"
+".\objects\delay.o"
+".\objects\sys.o"
+".\objects\wifitocloud.o"
+".\objects\hal_wifitocloud.o"
+--strict --scatter ".\Objects\WiFiToCloud-M3.sct"
+--summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list ".\Listings\WiFiToCloud-M3.map" -o .\Objects\WiFiToCloud-M3.axf
