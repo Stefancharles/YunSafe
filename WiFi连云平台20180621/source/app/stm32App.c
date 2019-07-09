@@ -1,12 +1,8 @@
 /************************************************************************************
-*
-*
-*
-*
-*
+
 ************************************************************************************/
 
-//Í·ÎÄ¼ş
+//å¤´æ–‡ä»¶
 #include "stm32App.h"
 #include "public.h"
 #include "stm32f103_config.h"
@@ -14,20 +10,20 @@
 #include "WiFiToCloud.h"
 
 
-//¼Ä´æÆ÷¼°±äÁ¿
-uint8_t UART_RX_BUF[256];//½ÓÊÕµ½µÄ´®¿ÚÊı¾İ»º´æÇø
-uint8_t UART_TX_BUF[256];//½ÓÊÕµ½µÄ´®¿ÚÊı¾İ»º´æÇø
+//å¯„å­˜å™¨åŠå˜é‡
+uint8_t UART_RX_BUF[256];//æ¥æ”¶åˆ°çš„ä¸²å£æ•°æ®ç¼“å­˜åŒº
+uint8_t UART_TX_BUF[256];//æ¥æ”¶åˆ°çš„ä¸²å£æ•°æ®ç¼“å­˜åŒº
 
 uint8_t lock=1;
 
 /*******************************************************************
-*º¯Êı£ºchar *USER_GetJsonValue(char *cJson, char *Tag)
-*¹¦ÄÜ£ºjsonÎª×Ö·û´®ĞòÁĞ£¬½«json¸ñÊ½ÖĞµÄÄ¿±ê¶ÔÏóTag¶ÔÓ¦µÄÖµ×Ö·û´®×ª»»ÎªÊıÖµ
-*ÊäÈë£º
-		char *cJson json×Ö·û´®
-		char *Tag Òª²Ù×÷µÄ¶ÔÏó±êÇ©
-*Êä³ö£º·µ»ØÊıÖµµÄ×Ö·û´®ĞÎÊ½µÄÆôÊ¼µØÖ·
-*ÌØÊâËµÃ÷£ºÓÃ»§¿ÉÒÔÔÚ´Ë»ù´¡ÉÏ¸ÄÔìºÍÀ©Õ¹¸Ãº¯Êı£¬ÕâÀïÖ»ÊÇ¸ö¼òµ¥µÄDEMO
+*å‡½æ•°ï¼šchar *USER_GetJsonValue(char *cJson, char *Tag)
+*åŠŸèƒ½ï¼šjsonä¸ºå­—ç¬¦ä¸²åºåˆ—ï¼Œå°†jsonæ ¼å¼ä¸­çš„ç›®æ ‡å¯¹è±¡Tagå¯¹åº”çš„å€¼å­—ç¬¦ä¸²è½¬æ¢ä¸ºæ•°å€¼
+*è¾“å…¥ï¼š
+		char *cJson jsonå­—ç¬¦ä¸²
+		char *Tag è¦æ“ä½œçš„å¯¹è±¡æ ‡ç­¾
+*è¾“å‡ºï¼šè¿”å›æ•°å€¼çš„å­—ç¬¦ä¸²å½¢å¼çš„å¯å§‹åœ°å€
+*ç‰¹æ®Šè¯´æ˜ï¼šç”¨æˆ·å¯ä»¥åœ¨æ­¤åŸºç¡€ä¸Šæ”¹é€ å’Œæ‰©å±•è¯¥å‡½æ•°ï¼Œè¿™é‡Œåªæ˜¯ä¸ªç®€å•çš„DEMO
 *******************************************************************/
 char *USER_GetJsonValue(char *cJson, char *Tag)
 {
@@ -40,13 +36,13 @@ char *USER_GetJsonValue(char *cJson, char *Tag)
 	target=strstr((const char *)cJson, (const char *)temp);
 	if(target == NULL)
 	{
-		//printf("¿Õ×Ö·û£¡\r\n");
+		//printf("ç©ºå­—ç¬¦ï¼\r\n");
 		return NULL;
 	}
 	i=strlen((const char *)temp);
 	target=target+i;
 	memset(temp, 0x00, 128);
-	for(i=0; i<10; i++, target++)//ÊıÖµ³¬¹ı10¸öÎ»Îª·Ç·¨£¬ÓÉÓÚ2^32=4294967296
+	for(i=0; i<10; i++, target++)//æ•°å€¼è¶…è¿‡10ä¸ªä½ä¸ºéæ³•ï¼Œç”±äº2^32=4294967296
 	{
 		if((*target<='9')&&(*target>='0'))
 		{
@@ -58,40 +54,40 @@ char *USER_GetJsonValue(char *cJson, char *Tag)
 		}
 	}
 	temp[i+1] = '\0';
-	//printf("ÊıÖµ=%s\r\n",temp);
+	//printf("æ•°å€¼=%s\r\n",temp);
 	return (char *)temp;
 }
 
 /*******************************************************************
-*º¯Êı£ºvoid USER_DataAnalysisProcess(char *RxBuf)
-*¹¦ÄÜ£º½âÎö·şÎñÆ÷Êı¾İ
-*ÊäÈë£ºchar *RxBuf ·şÎñÆ÷ÏÂ·¢Êı¾İ
-*Êä³ö£º
-*ÌØÊâËµÃ÷£ºÓÃ»§¿ÉÒÔÔÚ´Ë»ù´¡ÉÏ¸ÄÔìºÍÀ©Õ¹¸Ãº¯Êı£¬ÕâÀïÖ»ÊÇ¸ö¼òµ¥µÄDEMO
+*å‡½æ•°ï¼švoid USER_DataAnalysisProcess(char *RxBuf)
+*åŠŸèƒ½ï¼šè§£ææœåŠ¡å™¨æ•°æ®
+*è¾“å…¥ï¼šchar *RxBuf æœåŠ¡å™¨ä¸‹å‘æ•°æ®
+*è¾“å‡ºï¼š
+*ç‰¹æ®Šè¯´æ˜ï¼šç”¨æˆ·å¯ä»¥åœ¨æ­¤åŸºç¡€ä¸Šæ”¹é€ å’Œæ‰©å±•è¯¥å‡½æ•°ï¼Œè¿™é‡Œåªæ˜¯ä¸ªç®€å•çš„DEMO
 *******************************************************************/
 void USER_DataAnalysisProcess(char *RxBuf)
 {
 	char *cmdid = NULL;
 	uint8_t TxetBuf[128];
-	if(strstr((const char *)RxBuf, (const char *)PING_REQ) != NULL)//ĞÄÌøÇëÇó£¿
+	if(strstr((const char *)RxBuf, (const char *)PING_REQ) != NULL)//å¿ƒè·³è¯·æ±‚ï¼Ÿ
 	{
-		if(ESP8266_IpSend((char *)PING_RSP, strlen((const char *)PING_RSP)) < 0)//ÏìÓ¦ĞÄÌø
-		{//·¢ËÍÊ§°Ü
-			printf("·¢ËÍĞÄÌø°üÊ§°Ü£¡\r\n");
+		if(ESP8266_IpSend((char *)PING_RSP, strlen((const char *)PING_RSP)) < 0)//å“åº”å¿ƒè·³
+		{//å‘é€å¤±è´¥
+			printf("å‘é€å¿ƒè·³åŒ…å¤±è´¥ï¼\r\n");
 		}
 		else
 		{
-			printf("ĞÄÌø°ü£¡\r\n");
+			printf("å¿ƒè·³åŒ…ï¼\r\n");
 		}
 	}
-	else if(strstr((const char *)RxBuf, (const char *)"\"t\":5") != NULL)//ÃüÁîÇëÇó£¿
+	else if(strstr((const char *)RxBuf, (const char *)"\"t\":5") != NULL)//å‘½ä»¤è¯·æ±‚ï¼Ÿ
 	{
-		if(strstr((const char *)RxBuf, (const char *)"\"apitag\":\"defense\"") != NULL)//²¼·À/³··ÀÇëÇó
+		if(strstr((const char *)RxBuf, (const char *)"\"apitag\":\"defense\"") != NULL)//å¸ƒé˜²/æ’¤é˜²è¯·æ±‚
 		{
-			memset(TxetBuf,0x00,128);//Çå¿Õ»º´æ
-			if((strstr((const char *)RxBuf, (const char *)"\"data\":1") != NULL))//²¼·À
+			memset(TxetBuf,0x00,128);//æ¸…ç©ºç¼“å­˜
+			if((strstr((const char *)RxBuf, (const char *)"\"data\":1") != NULL))//å¸ƒé˜²
 			{
-				printf("²¼·À£¡\r\n");
+				printf("å¸ƒé˜²ï¼\r\n");
 				;//...
 				;//...
 				;//...
@@ -99,13 +95,13 @@ void USER_DataAnalysisProcess(char *RxBuf)
 				sprintf((char *)TxetBuf,"{\"t\":6,\"cmdid\":%s,\"status\":0,\"data\":1}",cmdid);
 				//printf("%s\r\n",TxetBuf);////////////////////////////////////////////////////////////
 				if(ESP8266_IpSend((char *)TxetBuf, strlen((char *)TxetBuf)) < 0)
-				{//·¢ËÍÊ§°Ü
-					printf("·¢ËÍÏìÓ¦Ê§°Ü£¡\r\n");
+				{//å‘é€å¤±è´¥
+					printf("å‘é€å“åº”å¤±è´¥ï¼\r\n");
 				}
 			}
-			else if((strstr((const char *)RxBuf, (const char *)"\"data\":0") != NULL))//³··À
+			else if((strstr((const char *)RxBuf, (const char *)"\"data\":0") != NULL))//æ’¤é˜²
 			{
-				printf("³··À£¡\r\n");
+				printf("æ’¤é˜²ï¼\r\n");
 				;//...
 				;//...
 				;//...
@@ -113,17 +109,17 @@ void USER_DataAnalysisProcess(char *RxBuf)
 				sprintf((char *)TxetBuf,"{\"t\":6,\"cmdid\":%s,\"status\":0,\"data\":0}",cmdid);
 				//printf("%s\r\n",TxetBuf);////////////////////////////////////////////////////////////
 				if(ESP8266_IpSend((char *)TxetBuf, strlen((char *)TxetBuf)) < 0)
-				{//·¢ËÍÊ§°Ü
-					printf("·¢ËÍÏìÓ¦Ê§°Ü£¡\r\n");
+				{//å‘é€å¤±è´¥
+					printf("å‘é€å“åº”å¤±è´¥ï¼\r\n");
 				}
 			}
 		}
-		else if(strstr((const char *)RxBuf, (const char *)"\"apitag\":\"ctrl\"") != NULL)//¿ªËø/¹ØËøÇëÇó
+		else if(strstr((const char *)RxBuf, (const char *)"\"apitag\":\"ctrl\"") != NULL)//å¼€é”/å…³é”è¯·æ±‚
 		{
-			memset(TxetBuf,0x00,128);//Çå¿Õ»º´æ
-			if((strstr((const char *)RxBuf, (const char *)"\"data\":1") != NULL))//¿ªËø
+			memset(TxetBuf,0x00,128);//æ¸…ç©ºç¼“å­˜
+			if((strstr((const char *)RxBuf, (const char *)"\"data\":1") != NULL))//å¼€é”
 			{
-				printf("¿ªËø£¡\r\n");
+				printf("å¼€é”ï¼\r\n");
 				;//...
 				;//...
 				;//...
@@ -131,14 +127,14 @@ void USER_DataAnalysisProcess(char *RxBuf)
 				sprintf((char *)TxetBuf,"{\"t\":6,\"cmdid\":%s,\"status\":0,\"data\":1}",cmdid);
 				//printf("%s\r\n",TxetBuf);////////////////////////////////////////////////////////////
 				if(ESP8266_IpSend((char *)TxetBuf, strlen((char *)TxetBuf)) < 0)
-				{//·¢ËÍÊ§°Ü
-					printf("·¢ËÍÏìÓ¦Ê§°Ü£¡\r\n");
+				{//å‘é€å¤±è´¥
+					printf("å‘é€å“åº”å¤±è´¥ï¼\r\n");
 				}
 				lock=1;
 			}
-			else if((strstr((const char *)RxBuf, (const char *)"\"data\":0") != NULL))//¹ØËø
+			else if((strstr((const char *)RxBuf, (const char *)"\"data\":0") != NULL))//å…³é”
 			{
-				printf("¹ØËø£¡\r\n");
+				printf("å…³é”ï¼\r\n");
 				;//...
 				;//...
 				;//...
@@ -146,8 +142,8 @@ void USER_DataAnalysisProcess(char *RxBuf)
 				sprintf((char *)TxetBuf,"{\"t\":6,\"cmdid\":%s,\"status\":0,\"data\":0}",cmdid);
 				//printf("%s\r\n",TxetBuf);////////////////////////////////////////////////////////////
 				if(ESP8266_IpSend((char *)TxetBuf, strlen((char *)TxetBuf)) < 0)
-				{//·¢ËÍÊ§°Ü
-					printf("·¢ËÍÏìÓ¦Ê§°Ü£¡\r\n");
+				{//å‘é€å¤±è´¥
+					printf("å‘é€å“åº”å¤±è´¥ï¼\r\n");
 				}
 			}
 		}
@@ -155,11 +151,11 @@ void USER_DataAnalysisProcess(char *RxBuf)
 }
 
 /*******************************************************************
-*º¯Êı£ºvoid userApp(void)
-*¹¦ÄÜ£ºÓÃ»§Ó¦ÓÃ
-*ÊäÈë£ºÎŞ
-*Êä³ö£ºÎŞ
-*ÌØÊâËµÃ÷£ºÎŞ
+*å‡½æ•°ï¼švoid userApp(void)
+*åŠŸèƒ½ï¼šç”¨æˆ·åº”ç”¨
+*è¾“å…¥ï¼šæ— 
+*è¾“å‡ºï¼šæ— 
+*ç‰¹æ®Šè¯´æ˜ï¼šæ— 
 *******************************************************************/
 void userApp(void)
 {
@@ -174,9 +170,9 @@ void userApp(void)
 	
 	memset(IpData, 0x00, 128);
 	
-	delay_ms(1000);//ÑÓÊ±1000Ms´ıÏµÍ³WiFiÍ¨Ñ¶Ä£¿éÆô¶¯Íê±Ï
+	delay_ms(1000);//å»¶æ—¶1000Mså¾…ç³»ç»ŸWiFié€šè®¯æ¨¡å—å¯åŠ¨å®Œæ¯•
 	
-	//Á¬½Ó·şÎñÆ÷
+	//è¿æ¥æœåŠ¡å™¨
 	for(TryCount=0; TryCount<3; TryCount++)
 	{
 		temp=ConnectToServer((char *)MY_DEVICE_ID, (char *)MA_SECRET_KEY);
@@ -196,20 +192,32 @@ void userApp(void)
 		TimeCount++;
 		TimeCount=(uint32_t)TimeCount;
 
-		if(F_AT_RX_FINISH)
-		{	 // ½ÓÊÕµ½Êı¾İ°ü
-
+		if(F_AT_RX_FINISH)  //ATä¸²å£æ•°æ®æ¥æ”¶å®Œæ¯•æ ‡å¿—ï¼Œå–å€¼0æˆ–1
+		{	 // æ¥æ”¶åˆ°æ•°æ®åŒ…
+			/*******************************************************************
+	*å‡½æ•°ï¼šuint8_t ESP8266_GetIpData(uint8_t *AtRxBuf, char *GetIpData)
+	*åŠŸèƒ½ï¼šè§£ææœåŠ¡å™¨æ•°æ®
+	*è¾“å…¥ï¼š
+		uint8_t *AtRxBuf ï¼ŒåŸå§‹ATä¸²å£ç¼“å­˜
+		char *GetIpData ï¼Œæˆªå–å‡ºæ¥çš„Itcp/ipæ•°æ®
+	*è¾“å‡ºï¼šè¿”å›æ”¶åˆ°çš„IPæ•°æ®é•¿åº¦
+	*ç‰¹æ®Šè¯´æ˜ï¼š
+	AT+CIPSEND=76
+	{"t":3,"datatype":2,"datas":{"alarm":{"2018-06-19 18:15:02":0}},"msgid":001}
+	+IPD,29:{"msgid":1,"status":0,"t":4}
+		*******************************************************************/
 			ESP8266_GetIpData((uint8_t *)AT_RX_BUF, (char *)IpData);
 			USER_DataAnalysisProcess((char *)IpData);
-			memset(IpData, 0x00, 128);
+			memset(IpData, 0x00, 128);  
+			//memsetï¼šä½œç”¨æ˜¯åœ¨ä¸€æ®µå†…å­˜å—ä¸­å¡«å……æŸä¸ªç»™å®šçš„å€¼ï¼Œå®ƒæ˜¯å¯¹è¾ƒå¤§çš„ç»“æ„ä½“æˆ–æ•°ç»„è¿›è¡Œæ¸…é›¶æ“ä½œçš„ä¸€ç§æœ€å¿«æ–¹æ³•
 			ClrAtRxBuf();
 		}
-		if(TimeCount >= 1000)//10S·¢ËÍÒ»´ÎÊı¾İ
+		if(TimeCount >= 1000)//10Så‘é€ä¸€æ¬¡æ•°æ®
 		{
 			TimeCount=0;
-			ESP8266_SendSensor(lock, (char *)"2018-06-20 14:10:26");
+			ESP8266_SendSensor(lock, (char *)"2019-07-09 14:10:26");
 			ClrAtRxBuf();
-			printf("·¢ËÍ´«¸ĞÊı¾İlock=%d£¡\r\n",lock);
+			printf("å‘é€ä¼ æ„Ÿæ•°æ®lock=%dï¼\r\n",lock);
 			lock++;
 			if(lock > 2)
 			{

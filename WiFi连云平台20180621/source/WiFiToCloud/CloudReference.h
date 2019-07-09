@@ -1,9 +1,9 @@
 /******************************************************************************
-*本文件定义用户相关数据，根据项目的不同，用户自行修改
+*鏈枃浠跺畾涔夌敤鎴风浉鍏虫暟鎹紝鏍规嵁椤圭洰鐨勪笉鍚岋紝鐢ㄦ埛鑷淇敼
 *
-*设备标识和传输密钥每个项目都不同，用户必须要修改
-*#define MY_DEVICE_ID  "cloudsafebox615"//设备标识
-*#define MA_SECRET_KEY "94ccf37b469a4985a65b31ac04cc0910"//传输密钥
+*璁惧鏍囪瘑鍜屼紶杈撳瘑閽ユ瘡涓」鐩兘涓嶅悓锛岀敤鎴峰繀椤昏淇敼
+*#define MY_DEVICE_ID  "cloudsafebox615"//璁惧鏍囪瘑
+*#define MA_SECRET_KEY "94ccf37b469a4985a65b31ac04cc0910"//浼犺緭瀵嗛挜
 *
 *
 *
@@ -14,12 +14,12 @@
 #ifndef _CloudReference_h_
 #define _CloudReference_h_
 
-#define WIFI_AP		"zz"//WiFi热点名称
-#define WIFI_PWD	"zhaojiyuan6"	//WiFi密码
-#define SERVER_IP	"120.77.58.34"	//服务器IP地址
-#define SERVER_PORT	8600			//服务器端口号
+#define WIFI_AP		"zz"//WiFi鐑偣鍚嶇О
+#define WIFI_PWD	"zhaojiyuan6"	//WiFi瀵嗙爜
+#define SERVER_IP	"120.77.58.34"	//鏈嶅姟鍣↖P鍦板潃
+#define SERVER_PORT	8600			//鏈嶅姟鍣ㄧ鍙ｅ彿
 
-#define MY_DEVICE_ID  "cloudsafebox615"//设备标识
-#define MA_SECRET_KEY "94ccf37b469a4985a65b31ac04cc0910"//传输密钥
+#define MY_DEVICE_ID  "cloudsafebox615"//璁惧鏍囪瘑
+#define MA_SECRET_KEY "94ccf37b469a4985a65b31ac04cc0910"//浼犺緭瀵嗛挜
 
 #endif /*_CloudReference_h_*/
