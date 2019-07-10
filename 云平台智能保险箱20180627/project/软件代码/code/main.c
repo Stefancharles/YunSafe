@@ -45,7 +45,7 @@
 
 
 #if 0
-	//MEMSDataTypedef å‚æ•°
+	//MEMSDataTypedef é™å‚›æšŸ
 #define ADC_CHANNEL_NUM		5
 typedef struct
 {
@@ -84,22 +84,22 @@ uint32_t rtc_second = 0, is_rtc_update = 0;
 uint32_t ultrasonic_dist = 0, is_ultrasonic_update = 0;
 uint8_t adc_nofify_rank = 0;
 
-uint32_t TimeCount=0;//ÏµÍ³Ê±»ù
+uint32_t TimeCount=0;//ç³»ç»Ÿæ—¶åŸº
 
 char menuStatus = MENU_IDLE;
 //digit password
-//#define MAX_DIGIT_PWD_NUM 5//å¯å­˜å‚¨çš„å¯†ç ä¸ªæ•°
-//#define DIGIT_PWD_LEN 6//æ•°å­—å¯†ç é•¿åº¦
-//unsigned char digitPwd[MAX_DIGIT_PWD_NUM][DIGIT_PWD_LEN];//æ•°å­—å¯†ç ç¼“å­˜
-//unsigned char digitPwd_offset = 0;//å¯†ç ä¿å­˜åœ¨ç¼“å­˜ä¸­çš„ä½ç½®
-//unsigned char curDigitPwd[DIGIT_PWD_LEN];//å½“å‰è¾“å…¥çš„å¯†ç 
-//unsigned char curDigitPwd_offset = 0;//å½“å‰è¾“å…¥å¯†ç åˆ°ç¬¬å‡ ä½
+//#define MAX_DIGIT_PWD_NUM 5//é™îˆšç“¨éŒã„§æ®‘ç€µå—™çˆœæ¶“î…æšŸ
+//#define DIGIT_PWD_LEN 6//éæ¿ç“§ç€µå—™çˆœé—€å®å®³
+//unsigned char digitPwd[MAX_DIGIT_PWD_NUM][DIGIT_PWD_LEN];//éæ¿ç“§ç€µå—™çˆœç¼‚æ’³ç“¨
+//unsigned char digitPwd_offset = 0;//ç€µå—™çˆœæ·‡æ¿†ç“¨é¦ã„§ç´¦ç€›æ¨¹è…‘é¨å‹ªç¶…ç¼ƒï¿½
+//unsigned char curDigitPwd[DIGIT_PWD_LEN];//è¤°æ’³å¢ æˆæ’³å†é¨å‹«ç˜‘é®ï¿½
+//unsigned char curDigitPwd_offset = 0;//è¤°æ’³å¢ æˆæ’³å†ç€µå—™çˆœé’æ‰®îƒ‡é‘çŠ±ç¶…
 //LF id card password
-//#define MAX_ID_CARD_PWD_NUM 5//å¯å­˜å‚¨çš„IDcardå¯†ç ä¸ªæ•°
-//#define ID_CARD_PWD_LEN 8//id cardå¯†ç é•¿åº¦
-//unsigned char idCardPwd[MAX_ID_CARD_PWD_NUM][ID_CARD_PWD_LEN];//id cardå¯†ç ç¼“å­˜
-//unsigned char idCardPwd_offset = 0;//å¯†ç ä¿å­˜åœ¨ç¼“å­˜ä¸­çš„ä½ç½®
-//unsigned char curIdCardPwd[ID_CARD_PWD_LEN];//å½“å‰è¾“å…¥çš„å¯†ç 
+//#define MAX_ID_CARD_PWD_NUM 5//é™îˆšç“¨éŒã„§æ®‘IDcardç€µå—™çˆœæ¶“î…æšŸ
+//#define ID_CARD_PWD_LEN 8//id cardç€µå—™çˆœé—€å®å®³
+//unsigned char idCardPwd[MAX_ID_CARD_PWD_NUM][ID_CARD_PWD_LEN];//id cardç€µå—™çˆœç¼‚æ’³ç“¨
+//unsigned char idCardPwd_offset = 0;//ç€µå—™çˆœæ·‡æ¿†ç“¨é¦ã„§ç´¦ç€›æ¨¹è…‘é¨å‹ªç¶…ç¼ƒï¿½
+//unsigned char curIdCardPwd[ID_CARD_PWD_LEN];//è¤°æ’³å¢ æˆæ’³å†é¨å‹«ç˜‘é®ï¿½
 
 //MEMSDataTypedef memsData = 
 //{
@@ -108,7 +108,7 @@ char menuStatus = MENU_IDLE;
 //	.static_ADCValue[2] = 1000,
 //};
 unsigned char lcdRefresh = 1;
-unsigned char isAlert = 0;//±¨¾¯±êÖ¾
+unsigned char isAlert = 0;//æŠ¥è­¦æ ‡å¿—
 
 #if 0
 void clearPwdCache(void)
@@ -165,8 +165,8 @@ int isRightPwd_IdCard(unsigned char pwd[],int len)
 /*
 * @brief  paramInit
 * @param  none
-* @note  1.å‚æ•°åˆå§‹åŒ–
-       2.æ˜¯å¦åˆæ¬¡ä¸Šç”µ  ç¬¬ä¸€æ¬¡ä¸Šç”µ é‡ç½®å¯†ç  
+* @note  1.é™å‚›æšŸé’æ¿†îé–ï¿½
+       2.é„îˆšæƒé’æ¿‡î‚¼æ¶“å©„æ•¸  ç»—îƒ¿ç«´å¨†â€²ç¬‚é¢ï¿½ é–²å¶‡ç–†ç€µå—™çˆœ 
 * @Date:2018.6.19
 * @author:zhao
 * @return:none
@@ -178,8 +178,8 @@ void paramInit(void)
 	unsigned short NumByteToWrite;
 	int i;
 /*
-  * @note  1.å‚æ•°åˆå§‹åŒ–
-           2.sEE_ReadBuffer  è·å–   åˆå§‹åŒ–åª å¦‚æœæ˜¯ç¬¬ä¸€æ¬¡ä¸Šç”µ 0 byte å†™å…¥ 0xA3
+  * @note  1.é™å‚›æšŸé’æ¿†îé–ï¿½
+           2.sEE_ReadBuffer  é‘¾å³°å½‡   é’æ¿†îé–æ §å½§ æ¿¡å‚›ç‰é„îˆœîƒ‡æ¶“â‚¬å¨†â€²ç¬‚é¢ï¿½ 0 byte éæ¬å† 0xA3
            3.
   * @Date:2018.6.19
   * @author:zhao
@@ -243,17 +243,17 @@ int saveDigitPwd(unsigned char pwd[],int len)
 
 
 /*
-  * @brief  readDigitPwd è¯»å–æ•°å­—å¯†ç 
+  * @brief  readDigitPwd ç’‡è¯²å½‡éæ¿ç“§ç€µå—™çˆœ
   * @param  none
-  * @note  1.å‚æ•°åˆå§‹åŒ–
-           2.åˆ†é…å†…å­˜ calloc(128,sizeof(char))
-           3.è·å–å½“å‰ç¼“å­˜ä½ç½®
-           4.digitPwdç¼“å­˜å†™FF
-           5.å°†digitPwdç¼“å­˜å†™å…¥ debug_buff  æ‰“å° å¯†ç   strcat ä¸²è”å­—ç¬¦ä¸²
-           6.free é‡Šæ”¾å†…å­˜
+  * @note  1.é™å‚›æšŸé’æ¿†îé–ï¿½
+           2.é’å—›å¤éå‘­ç“¨ calloc(128,sizeof(char))
+           3.é‘¾å³°å½‡è¤°æ’³å¢ ç¼‚æ’³ç“¨æµ£å¶‡ç–†
+           4.digitPwdç¼‚æ’³ç“¨éæ©£F
+           5.çå“¾igitPwdç¼‚æ’³ç“¨éæ¬å† debug_buff  éµæ’³åµƒ ç€µå—™çˆœ  strcat æ¶“èŒ¶ä»ˆç€›æ¥ƒîƒæ¶“ï¿½
+           6.free é–²å©ƒæ–éå‘­ç“¨
   * @Date:2018.6.19
   * @author:zhao
-  * @return:(unsigned char **)digitPwd  æŒ‡é’ˆåœ°å€
+  * @return:(unsigned char **)digitPwd  é¸å›¬æ‹¡é¦æ¿æ½ƒ
 */
 unsigned char **readDigitPwd(void)
 {	
@@ -456,7 +456,7 @@ void menuIdle_Handle(void)
 	}
 	if(FlagDefense)
 	{
-		//IRºìÍâ
+		//IRçº¢å¤–
 		if(irAlert() && (!isDoorOpen()))
 		{
 			isAlert = 1;
@@ -641,7 +641,7 @@ void menuAddDigitPwd_Handle(void)
 	}
 	if(FlagDefense)
 	{
-		//IRºìÍâ
+		//IRçº¢å¤–
 		if(irAlert() && !isDoorOpen() && isAlert == 0)
 		{
 			isAlert = 1;
@@ -753,7 +753,7 @@ void menuAddDigitPwd_Handle(void)
 			case KEY_ENTER:
 				if(key.key_event == KBD_KEY_DONW)
 				{
-					if(isAlreadyOldPwd){//ÒÑ¾­ÊäÈë¾ÉÃÜÂë
+					if(isAlreadyOldPwd){//å·²ç»è¾“å…¥æ—§å¯†ç 
 						if(curDigitPwd_offset == DIGIT_PWD_LEN)
 						{
 							save_DigitPwd(curDigitPwd, DIGIT_PWD_LEN);
@@ -834,7 +834,7 @@ void menuIdCardPwd_Handle(void)
 	}
 	if(FlagDefense)
 	{	
-		//IRºìÍâ
+		//IRçº¢å¤–
 		if(irAlert() && !isDoorOpen() && isAlert == 0)
 		{
 			isAlert = 1;
@@ -1083,7 +1083,7 @@ void menuMEMS_Handle(void)
 	}
 	if(FlagDefense)
 	{
-		//IRºìÍâ
+		//IRçº¢å¤–
 		if(irAlert() && !isDoorOpen() && isAlert == 0)
 		{
 			isAlert = 1;
@@ -1293,7 +1293,7 @@ void menuAlertClear_Handle(void)
 	}
 	if(FlagDefense)
 	{
-		//IRºìÍâ
+		//IRçº¢å¤–
 		if(irAlert() && !isDoorOpen() && isAlert == 0)
 		{
 			isAlert = 1;
@@ -1445,13 +1445,13 @@ void menuAlertClear_Handle(void)
 }
 
 /*******************************************************************
-*º¯Êı£ºchar *USER_GetJsonValue(char *cJson, char *Tag)
-*¹¦ÄÜ£ºjsonÎª×Ö·û´®ĞòÁĞ£¬½«json¸ñÊ½ÖĞµÄÄ¿±ê¶ÔÏóTag¶ÔÓ¦µÄÖµ×Ö·û´®×ª»»ÎªÊıÖµ
-*ÊäÈë£º
-		char *cJson json×Ö·û´®
-		char *Tag Òª²Ù×÷µÄ¶ÔÏó±êÇ©
-*Êä³ö£º·µ»ØÊıÖµµÄ×Ö·û´®ĞÎÊ½µÄÆôÊ¼µØÖ·
-*ÌØÊâËµÃ÷£ºÓÃ»§¿ÉÒÔÔÚ´Ë»ù´¡ÉÏ¸ÄÔìºÍÀ©Õ¹¸Ãº¯Êı£¬ÕâÀïÖ»ÊÇ¸ö¼òµ¥µÄDEMO
+*å‡½æ•°ï¼šchar *USER_GetJsonValue(char *cJson, char *Tag)
+*åŠŸèƒ½ï¼šjsonä¸ºå­—ç¬¦ä¸²åºåˆ—ï¼Œå°†jsonæ ¼å¼ä¸­çš„ç›®æ ‡å¯¹è±¡Tagå¯¹åº”çš„å€¼å­—ç¬¦ä¸²è½¬æ¢ä¸ºæ•°å€¼
+*è¾“å…¥ï¼š
+		char *cJson jsonå­—ç¬¦ä¸²
+		char *Tag è¦æ“ä½œçš„å¯¹è±¡æ ‡ç­¾
+*è¾“å‡ºï¼šè¿”å›æ•°å€¼çš„å­—ç¬¦ä¸²å½¢å¼çš„å¯å§‹åœ°å€
+*ç‰¹æ®Šè¯´æ˜ï¼šç”¨æˆ·å¯ä»¥åœ¨æ­¤åŸºç¡€ä¸Šæ”¹é€ å’Œæ‰©å±•è¯¥å‡½æ•°ï¼Œè¿™é‡Œåªæ˜¯ä¸ªç®€å•çš„DEMO
 *******************************************************************/
 char *USER_GetJsonValue(char *cJson, char *Tag)
 {
@@ -1464,13 +1464,13 @@ char *USER_GetJsonValue(char *cJson, char *Tag)
 	target=strstr((const char *)cJson, (const char *)temp);
 	if(target == NULL)
 	{
-		//printf("¿Õ×Ö·û£¡\r\n");
+		//printf("ç©ºå­—ç¬¦ï¼\r\n");
 		return NULL;
 	}
 	i=strlen((const char *)temp);
 	target=target+i;
 	memset(temp, 0x00, 128);
-	for(i=0; i<10; i++, target++)//ÊıÖµ³¬¹ı10¸öÎ»Îª·Ç·¨£¬ÓÉÓÚ2^32=4294967296
+	for(i=0; i<10; i++, target++)//æ•°å€¼è¶…è¿‡10ä¸ªä½ä¸ºéæ³•ï¼Œç”±äº2^32=4294967296
 	{
 		if((*target<='9')&&(*target>='0'))
 		{
@@ -1482,41 +1482,41 @@ char *USER_GetJsonValue(char *cJson, char *Tag)
 		}
 	}
 	temp[i+1] = '\0';
-	//printf("ÊıÖµ=%s\r\n",temp);
+	//printf("æ•°å€¼=%s\r\n",temp);
 	return (char *)temp;
 }
 
 /*******************************************************************
-*º¯Êı£ºvoid USER_DataAnalysisProcess(char *RxBuf)
-*¹¦ÄÜ£º½âÎö·şÎñÆ÷Êı¾İ
-*ÊäÈë£ºchar *RxBuf ·şÎñÆ÷ÏÂ·¢Êı¾İ
-*Êä³ö£º
-*ÌØÊâËµÃ÷£ºÓÃ»§¿ÉÒÔÔÚ´Ë»ù´¡ÉÏ¸ÄÔìºÍÀ©Õ¹¸Ãº¯Êı£¬ÕâÀïÖ»ÊÇ¸ö¼òµ¥µÄDEMO
+*å‡½æ•°ï¼švoid USER_DataAnalysisProcess(char *RxBuf)
+*åŠŸèƒ½ï¼šè§£ææœåŠ¡å™¨æ•°æ®
+*è¾“å…¥ï¼šchar *RxBuf æœåŠ¡å™¨ä¸‹å‘æ•°æ®
+*è¾“å‡ºï¼š
+*ç‰¹æ®Šè¯´æ˜ï¼šç”¨æˆ·å¯ä»¥åœ¨æ­¤åŸºç¡€ä¸Šæ”¹é€ å’Œæ‰©å±•è¯¥å‡½æ•°ï¼Œè¿™é‡Œåªæ˜¯ä¸ªç®€å•çš„DEMO
 *******************************************************************/
 void USER_DataAnalysisProcess(char *RxBuf)
 {
 	char *cmdid = NULL;
 	uint8_t TxetBuf[128];
-	if(strstr((const char *)RxBuf, (const char *)PING_REQ) != NULL)//ĞÄÌøÇëÇó£¿
+	if(strstr((const char *)RxBuf, (const char *)PING_REQ) != NULL)//å¿ƒè·³è¯·æ±‚ï¼Ÿ
 	{
-		if(ESP8266_IpSend((char *)PING_RSP, strlen((const char *)PING_RSP)) < 0)//ÏìÓ¦ĞÄÌø
-		{//·¢ËÍÊ§°Ü
-			printf("·¢ËÍĞÄÌø°üÊ§°Ü£¡\r\n");
+		if(ESP8266_IpSend((char *)PING_RSP, strlen((const char *)PING_RSP)) < 0)//å“åº”å¿ƒè·³
+		{//å‘é€å¤±è´¥
+			printf("å‘é€å¿ƒè·³åŒ…å¤±è´¥ï¼\r\n");
 		}
 		else
 		{
-			printf("ĞÄÌø°ü£¡\r\n");
+			printf("å¿ƒè·³åŒ…ï¼\r\n");
 		}
 	}
-	else if(strstr((const char *)RxBuf, (const char *)"\"t\":5") != NULL)//ÃüÁîÇëÇó£¿
+	else if(strstr((const char *)RxBuf, (const char *)"\"t\":5") != NULL)//å‘½ä»¤è¯·æ±‚ï¼Ÿ
 	{
-		if(strstr((const char *)RxBuf, (const char *)"\"apitag\":\"defense\"") != NULL)//²¼·À/³··ÀÇëÇó
+		if(strstr((const char *)RxBuf, (const char *)"\"apitag\":\"defense\"") != NULL)//å¸ƒé˜²/æ’¤é˜²è¯·æ±‚
 		{
-			memset(TxetBuf,0x00,128);//Çå¿Õ»º´æ
-			if((strstr((const char *)RxBuf, (const char *)"\"data\":1") != NULL))//²¼·À
+			memset(TxetBuf,0x00,128);//æ¸…ç©ºç¼“å­˜
+			if((strstr((const char *)RxBuf, (const char *)"\"data\":1") != NULL))//å¸ƒé˜²
 			{
 				FlagDefense=1;
-				printf("²¼·À£¡\r\n");
+				printf("å¸ƒé˜²ï¼\r\n");
 				;//...
 				;//...
 				;//...
@@ -1524,22 +1524,22 @@ void USER_DataAnalysisProcess(char *RxBuf)
 				sprintf((char *)TxetBuf,"{\"t\":6,\"cmdid\":%s,\"status\":0,\"data\":1}",cmdid);
 				//printf("%s\r\n",TxetBuf);////////////////////////////////////////////////////////////
 				if(ESP8266_IpSend((char *)TxetBuf, strlen((char *)TxetBuf)) < 0)
-				{//·¢ËÍÊ§°Ü
-					printf("·¢ËÍÏìÓ¦Ê§°Ü£¡\r\n");
+				{//å‘é€å¤±è´¥
+					printf("å‘é€å“åº”å¤±è´¥ï¼\r\n");
 				}
 			}
-			else if((strstr((const char *)RxBuf, (const char *)"\"data\":0") != NULL))//³··À
+			else if((strstr((const char *)RxBuf, (const char *)"\"data\":0") != NULL))//æ’¤é˜²
 			{
 				FlagDefense=0;
 				{
-					isAlert = 0;//Çå³ı¾¯¸æ
+					isAlert = 0;//æ¸…é™¤è­¦å‘Š
 					MEMS_ALERT = 0;
 					buzzerClose();
 					lightClose();
 					lcd_clr_row(2);
 					lcd_clr_row(3);
 				}
-				printf("³··À£¡\r\n");
+				printf("æ’¤é˜²ï¼\r\n");
 				;//...
 				;//...
 				;//...
@@ -1547,19 +1547,19 @@ void USER_DataAnalysisProcess(char *RxBuf)
 				sprintf((char *)TxetBuf,"{\"t\":6,\"cmdid\":%s,\"status\":0,\"data\":0}",cmdid);
 				//printf("%s\r\n",TxetBuf);////////////////////////////////////////////////////////////
 				if(ESP8266_IpSend((char *)TxetBuf, strlen((char *)TxetBuf)) < 0)
-				{//·¢ËÍÊ§°Ü
-					printf("·¢ËÍÏìÓ¦Ê§°Ü£¡\r\n");
+				{//å‘é€å¤±è´¥
+					printf("å‘é€å“åº”å¤±è´¥ï¼\r\n");
 				}
 			}
 		}
-		else if(strstr((const char *)RxBuf, (const char *)"\"apitag\":\"ctrl\"") != NULL)//¿ªËø/¹ØËøÇëÇó
+		else if(strstr((const char *)RxBuf, (const char *)"\"apitag\":\"ctrl\"") != NULL)//å¼€é”/å…³é”è¯·æ±‚
 		{
-			memset(TxetBuf,0x00,128);//Çå¿Õ»º´æ
-			if((strstr((const char *)RxBuf, (const char *)"\"data\":1") != NULL))//¿ªËø
+			memset(TxetBuf,0x00,128);//æ¸…ç©ºç¼“å­˜
+			if((strstr((const char *)RxBuf, (const char *)"\"data\":1") != NULL))//å¼€é”
 			{
-				isAlert=0;//Çå³ı¾¯¸æ
+				isAlert=0;//æ¸…é™¤è­¦å‘Š
 				doorOpen();
-				printf("¿ªËø£¡\r\n");
+				printf("å¼€é”ï¼\r\n");
 				;//...
 				;//...
 				;//...
@@ -1567,13 +1567,13 @@ void USER_DataAnalysisProcess(char *RxBuf)
 				sprintf((char *)TxetBuf,"{\"t\":6,\"cmdid\":%s,\"status\":0,\"data\":1}",cmdid);
 				//printf("%s\r\n",TxetBuf);////////////////////////////////////////////////////////////
 				if(ESP8266_IpSend((char *)TxetBuf, strlen((char *)TxetBuf)) < 0)
-				{//·¢ËÍÊ§°Ü
-					printf("·¢ËÍÏìÓ¦Ê§°Ü£¡\r\n");
+				{//å‘é€å¤±è´¥
+					printf("å‘é€å“åº”å¤±è´¥ï¼\r\n");
 				}
 			}
-			else if((strstr((const char *)RxBuf, (const char *)"\"data\":0") != NULL))//¹ØËø
+			else if((strstr((const char *)RxBuf, (const char *)"\"data\":0") != NULL))//å…³é”
 			{
-				printf("¹ØËø£¡\r\n");
+				printf("å…³é”ï¼\r\n");
 				;//...
 				;//...
 				;//...
@@ -1581,8 +1581,8 @@ void USER_DataAnalysisProcess(char *RxBuf)
 				sprintf((char *)TxetBuf,"{\"t\":6,\"cmdid\":%s,\"status\":0,\"data\":0}",cmdid);
 				//printf("%s\r\n",TxetBuf);////////////////////////////////////////////////////////////
 				if(ESP8266_IpSend((char *)TxetBuf, strlen((char *)TxetBuf)) < 0)
-				{//·¢ËÍÊ§°Ü
-					printf("·¢ËÍÏìÓ¦Ê§°Ü£¡\r\n");
+				{//å‘é€å¤±è´¥
+					printf("å‘é€å“åº”å¤±è´¥ï¼\r\n");
 				}
 				isAlert=0;
 			}
@@ -1620,7 +1620,7 @@ int main( void )
 	MEMS_ALERT = 0;
 	DEBUG("MEMS theshold %d, ADC Val:%d %d %d",memsData.theshold, memsData.static_ADCValue[0], memsData.static_ADCValue[1], memsData.static_ADCValue[2]);
 
-	//Á¬½Ó·şÎñÆ÷
+	//è¿æ¥æœåŠ¡å™¨
 	for(TryCount=0; TryCount<3; TryCount++)
 	{
 		LCD_PRINT(0,0,lcd_show,"Connect to sever");
@@ -1636,8 +1636,8 @@ int main( void )
 			break;
 		}
 	}
-	ClrAtRxBuf();//Çå¿ÕAT»º´æ
-	lcd_clr();//ÇåÆÁ
+	ClrAtRxBuf();//æ¸…ç©ºATç¼“å­˜
+	lcd_clr();//æ¸…å±
 
 	while(1)
 	{
@@ -1665,14 +1665,14 @@ int main( void )
 		}
 
 		if(F_AT_RX_FINISH)
-		{	 // ½ÓÊÕµ½Êı¾İ°ü
+		{	 // æ¥æ”¶åˆ°æ•°æ®åŒ…
 
 			ESP8266_GetIpData((uint8_t *)AT_RX_BUF, (char *)IpData);
 			USER_DataAnalysisProcess((char *)IpData);
 			memset(IpData, 0x00, 128);
 			ClrAtRxBuf();
 		}
-		if(TimeCount >= 1000)//10S·¢ËÍÒ»´ÎÊı¾İ
+		if(TimeCount >= 1000)//10Så‘é€ä¸€æ¬¡æ•°æ®
 		{
 			TimeCount=0;
 			if(isAlert)
@@ -1684,14 +1684,14 @@ int main( void )
 				ESP8266_SendSensor((char *)"alarm", (char *)"2018-06-20 14:10:26", FlagLockSta);//ESP8266_SendSensor(FlagLockSta, (char *)"2018-06-20 14:10:26");
 			}
 			ClrAtRxBuf();
-			printf("·¢ËÍ´«¸ĞÊı¾İalarm=%d£¡\r\n",isAlert);
+			printf("å‘é€ä¼ æ„Ÿæ•°æ®alarm=%dï¼\r\n",isAlert);
 			ESP8266_SendSensor((char *)"DefenseState", (char *)"2018-06-20 14:10:26", FlagDefense);
 			ClrAtRxBuf();
-			printf("·¢ËÍ·ÀÓù×´Ì¬defense=%d£¡\r\n",FlagDefense);
+			printf("å‘é€é˜²å¾¡çŠ¶æ€defense=%dï¼\r\n",FlagDefense);
 		}
 		if(FlagDefense == 0)
 		{
-			isAlert = 0;//Çå³ı¾¯¸æ
+			isAlert = 0;//æ¸…é™¤è­¦å‘Š
 			MEMS_ALERT = 0;
 		}
 	}
