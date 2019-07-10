@@ -57,7 +57,7 @@ void NVIC_Priority_Group_Configuration(void)
 
 /*  -------------------------Functions-----------------------------------------*/
 
-/**** stm32的初始化工作全部在这里完�? *****/
+/**** stm32的初始化工作全部在这里 *****/
 void My_InitTask(void)
 {	
 	NVIC_Priority_Group_Configuration();
@@ -89,7 +89,7 @@ void My_InitTask(void)
 	//i2c eeprom
 	sEE_Init();
 
-	//rtc init
+	//rtc init  Real-Time Clock
 	rtc_init(rtc_update_notify);
 	
 	//buzzer

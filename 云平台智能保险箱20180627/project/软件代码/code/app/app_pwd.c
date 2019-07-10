@@ -4,7 +4,7 @@
 * @author  zhao
 * @version V1.0.0
 * @date    2018.06.18
-* @brief   ÃÜÂëeeprom¹ÜÀí
+* @brief   å¯†ç eepromç®¡ç†
 ******************************************************************************/
 #include "app_pwd.h"
 #define __DEBUG__  
@@ -15,16 +15,16 @@
 #endif  
 
 
-unsigned char digitPwd[MAX_DIGIT_PWD_NUM][DIGIT_PWD_LEN];//Êı×ÖÃÜÂë»º´æ
-unsigned char digitPwd_offset = 0;//ÃÜÂë±£´æÔÚ»º´æÖĞµÄÎ»ÖÃ
-unsigned char curDigitPwd[DIGIT_PWD_LEN];//µ±Ç°ÊäÈëµÄÃÜÂë
-unsigned char curDigitPwd_offset = 0;//µ±Ç°ÊäÈëÃÜÂëµ½µÚ¼¸Î»
+unsigned char digitPwd[MAX_DIGIT_PWD_NUM][DIGIT_PWD_LEN];//æ•°å­—å¯†ç ç¼“å­˜
+unsigned char digitPwd_offset = 0;//å¯†ç ä¿å­˜åœ¨ç¼“å­˜ä¸­çš„ä½ç½®
+unsigned char curDigitPwd[DIGIT_PWD_LEN];//å½“å‰è¾“å…¥çš„å¯†ç 
+unsigned char curDigitPwd_offset = 0;//å½“å‰è¾“å…¥å¯†ç åˆ°ç¬¬å‡ ä½
 
 //LF id card password
 
-unsigned char idCardPwd[MAX_ID_CARD_PWD_NUM][ID_CARD_PWD_LEN];//id cardÃÜÂë»º´æ
-unsigned char idCardPwd_offset = 0;//ÃÜÂë±£´æÔÚ»º´æÖĞµÄÎ»ÖÃ
-unsigned char curIdCardPwd[ID_CARD_PWD_LEN];//µ±Ç°ÊäÈëµÄÃÜÂë
+unsigned char idCardPwd[MAX_ID_CARD_PWD_NUM][ID_CARD_PWD_LEN];//id cardå¯†ç ç¼“å­˜
+unsigned char idCardPwd_offset = 0;//å¯†ç ä¿å­˜åœ¨ç¼“å­˜ä¸­çš„ä½ç½®
+unsigned char curIdCardPwd[ID_CARD_PWD_LEN];//å½“å‰è¾“å…¥çš„å¯†ç 
 
 
 extern MEMSDataTypedef memsData = 
@@ -35,10 +35,10 @@ extern MEMSDataTypedef memsData =
 };
 
 /*
-  * @brief  clearPwdCache Çå¿ÕÊäÈëÃÜÂë»º´æ
+  * @brief  clearPwdCache æ¸…ç©ºè¾“å…¥å¯†ç ç¼“å­˜
   * @param  none
-  * @note  1.²ÎÊı³õÊ¼»¯
-           2.ÊÇ·ñ³õ´ÎÉÏµç  µÚÒ»´ÎÉÏµç ÖØÖÃÃÜÂë 
+  * @note  1.å‚æ•°åˆå§‹åŒ–
+           2.æ˜¯å¦åˆæ¬¡ä¸Šç”µ  ç¬¬ä¸€æ¬¡ä¸Šç”µ é‡ç½®å¯†ç  
   * @Date:2018.6.20
   * @author:zhao
   * @return:none
@@ -51,10 +51,10 @@ void clear_PwdCache(void)
 }
 
 /*
-  * @brief  isRightPwd_Digit ÅĞ¶ÏÊı×ÖÃÜÂëÊÇ·ñÕıÈ·
+  * @brief  isRightPwd_Digit åˆ¤æ–­æ•°å­—å¯†ç æ˜¯å¦æ­£ç¡®
   * @param  none
-  * @note  1.²ÎÊı³õÊ¼»¯
-           2.ÊÇ·ñ³õ´ÎÉÏµç  µÚÒ»´ÎÉÏµç ÖØÖÃÃÜÂë 
+  * @note  1.å‚æ•°åˆå§‹åŒ–
+           2.æ˜¯å¦åˆæ¬¡ä¸Šç”µ  ç¬¬ä¸€æ¬¡ä¸Šç”µ é‡ç½®å¯†ç  
   * @Date:2018.6.20
   * @author:zhao
   * @return:none
@@ -84,10 +84,10 @@ int isRight_Pwd_Digit(unsigned char pwd[],int len)
 }
 
 /*
-  * @brief  isRightPwd_IdCard ÅĞ¶ÏID¿¨ÃÜÂëÊÇ·ñÕıÈ·
+  * @brief  isRightPwd_IdCard åˆ¤æ–­IDå¡å¯†ç æ˜¯å¦æ­£ç¡®
   * @param  none
-  * @note  1.²ÎÊı³õÊ¼»¯
-           2.ÊÇ·ñ³õ´ÎÉÏµç  µÚÒ»´ÎÉÏµç ÖØÖÃÃÜÂë 
+  * @note  1.å‚æ•°åˆå§‹åŒ–
+           2.æ˜¯å¦åˆæ¬¡ä¸Šç”µ  ç¬¬ä¸€æ¬¡ä¸Šç”µ é‡ç½®å¯†ç  
   * @Date:2018.6.20
   * @author:zhao
   * @return:OK:PWD_SUCCESS  NO:PWD_ERROR
@@ -123,8 +123,8 @@ int isRight_Pwd_IdCard(unsigned char pwd[],int len)
 /*
   * @brief  paramInit
   * @param  none
-  * @note  1.²ÎÊı³õÊ¼»¯
-           2.ÊÇ·ñ³õ´ÎÉÏµç  µÚÒ»´ÎÉÏµç ÖØÖÃÃÜÂë 
+  * @note  1.å‚æ•°åˆå§‹åŒ–
+           2.æ˜¯å¦åˆæ¬¡ä¸Šç”µ  ç¬¬ä¸€æ¬¡ä¸Šç”µ é‡ç½®å¯†ç  
   * @Date:2018.6.19
   * @author:zhao
   * @return:none
@@ -136,8 +136,8 @@ void param_Init(void)
 	unsigned short NumByteToWrite;
 	int i;
 /*
-  * @note  1.²ÎÊı³õÊ¼»¯
-           2.sEE_ReadBuffer  »ñÈ¡   ³õÊ¼»¯Ö» Èç¹ûÊÇµÚÒ»´ÎÉÏµç 0 byte Ğ´Èë 0xA3
+  * @note  1.å‚æ•°åˆå§‹åŒ–
+           2.sEE_ReadBuffer  è·å–   åˆå§‹åŒ–åª å¦‚æœæ˜¯ç¬¬ä¸€æ¬¡ä¸Šç”µ 0 byte å†™å…¥ 0xA3
            3.
   * @Date:2018.6.19
   * @author:zhao
@@ -219,17 +219,17 @@ int save_DigitPwd(unsigned char pwd[],int len)
 
 
 /*
-  * @brief  read_DigitPwd ¶ÁÈ¡Êı×ÖÃÜÂë
+  * @brief  read_DigitPwd è¯»å–æ•°å­—å¯†ç 
   * @param  none
-  * @note  1.²ÎÊı³õÊ¼»¯
-           2.·ÖÅäÄÚ´æ calloc(128,sizeof(char))
-           3.»ñÈ¡µ±Ç°»º´æÎ»ÖÃ
-           4.digitPwd»º´æĞ´FF
-           5.½«digitPwd»º´æĞ´Èë debug_buff  ´òÓ¡ ÃÜÂë  strcat ´®Áª×Ö·û´®
-           6.free ÊÍ·ÅÄÚ´æ
+  * @note  1.å‚æ•°åˆå§‹åŒ–
+           2.åˆ†é…å†…å­˜ calloc(128,sizeof(char))
+           3.è·å–å½“å‰ç¼“å­˜ä½ç½®
+           4.digitPwdç¼“å­˜å†™FF
+           5.å°†digitPwdç¼“å­˜å†™å…¥ debug_buff  æ‰“å° å¯†ç   strcat ä¸²è”å­—ç¬¦ä¸²
+           6.free é‡Šæ”¾å†…å­˜
   * @Date:2018.6.20
   * @author:zhao
-  * @return:(unsigned char **)digitPwd  Ö¸ÕëµØÖ·
+  * @return:(unsigned char **)digitPwd  æŒ‡é’ˆåœ°å€
 */
 unsigned char **read_DigitPwd(void)
 {	

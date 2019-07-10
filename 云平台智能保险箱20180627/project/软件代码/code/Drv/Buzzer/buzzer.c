@@ -181,36 +181,36 @@ static void TIME6_cfg(void)
 {
 	TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
 
-	//����TIM2��ʱ��
+	//允许TIM2的时钟
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM6,ENABLE);
 
-	//���½�Timer����Ϊȱʡֵ
+	//重新将Timer设置为缺省值
 	TIM_DeInit(TIM6);
 
-	//�����ڲ�ʱ�Ӹ�TIM2�ṩʱ��Դ
+	//采用内部时钟给TIM2提供时钟源
 	//TIM_InternalClockConfig(TIM6);
 
-	//Ԥ��Ƶϵ��Ϊ36000-1������������ʱ��Ϊ72MHz/3600 = 20kHz
+	//预分频系数为36000-1，这样计数器时钟为72MHz/3600 = 20kHz
 	TIM_TimeBaseStructure.TIM_Prescaler = (SystemCoreClock / TIME6_INPUT_FREQ) -1;
 
-	//����ʱ�ӷָ�
+	//设置时钟分割
 	TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
 
-	//���ü�����ģʽΪ���ϼ���ģʽ
+	//设置计数器模式为向上计数模式
 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
 
-	//���ü��������С��ÿ��1000�����Ͳ���һ�������¼�
+	//设置计数溢出大小，每计1000个数就产生一个更新事件
 	TIM_TimeBaseStructure.TIM_Period = (TIME6_PERIOD_US / TIME6_TICK_US);
-	//������Ӧ�õ�TIM2��
+	//将配置应用到TIM2中
 	TIM_TimeBaseInit(TIM6,&TIM_TimeBaseStructure);
 	
-	//�������жϱ�־
+	//清除溢出中断标志
 	TIM_ClearFlag(TIM6, TIM_FLAG_Update);
 
-	//��ֹARRԤװ�ػ�����
+	//禁止ARR预装载缓冲器
 	TIM_ARRPreloadConfig(TIM6, ENABLE);
 
-	//����TIM2���ж�
+	//开启TIM2的中断
 	TIM_ITConfig(TIM6,TIM_IT_Update,DISABLE);
 
 }
@@ -227,7 +227,7 @@ static int TIME6_init(void)
 	//tim2 timer init
 	TIME6_cfg();
 	
-	//������ʱ��2
+	//开启定时器2
 	TIM_Cmd(TIM6,ENABLE);
 	
 	return 0;
@@ -238,10 +238,10 @@ void TIM6_IRQHandler(void)
 {
 	static uint8_t data = 0;
 	
-   //����Ƿ�����������¼�
+   //检测是否发生溢出更新事件
    if(TIM_GetITStatus(TIM6, TIM_IT_Update) != RESET)
    {
-		 //���TIM2���жϴ�����λ
+		 //清除TIM2的中断待处理位
 		 TIM_ClearITPendingBit(TIM6 , TIM_FLAG_Update);
 
 			if(buzzer_on){

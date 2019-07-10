@@ -2,10 +2,10 @@
 /******************************************************************************
 ******************************************************************************
 * @file    bsp/bsp_flash.c 
-* @author  Ó²¼ş²¿ÕÔ¼ÍÔª
+* @author  ç¡¬ä»¶éƒ¨èµµçºªå…ƒ
 * @version V1.0.0
 * @date    2018.06.18
-* @brief   flash°å¼¶¹ÜÀí°ü
+* @brief   flashæ¿çº§ç®¡ç†åŒ…
 ******************************************************************************
 ******************************************************************************/
 #include "bsp_flash.h"
@@ -14,7 +14,7 @@
 #define FLASH_BASE_ADDRESS          (0*1024)    //loader size 0K
 #define FLASH_LIMIT_MAX_SIZE        (256*2048)  //flash limit max
 #define FLASH_BLOCK_SIZE            (2048)      //2K
-#define FLASH_BLOCK_NUMBER          (256)       //256¸ö¿é Êı¾İ
+#define FLASH_BLOCK_NUMBER          (256)       //256ä¸ªå— æ•°æ®
 
 #define MIN_FLASH_ADDRESS = FLASH_START_ADDRESS + FLASH_BASE_ADDRESS;
 #define MAX_FLASH_ADDRESS = FLASH_START_ADDRESS + FLASH_LIMIT_MAX_SIZE;
@@ -75,7 +75,7 @@ int32_t bsp_flash_erase		 (uint32_t address,uint32_t len)
     
     
     NbrOfPage = (len) / FLASH_PAGE_SIZE;
-    if(len&(FLASH_PAGE_SIZE-1)){NbrOfPage++;}/*Èç¹û×Ö½ÚÊı´óÓÚµ±Ç°¿éÊı*/
+    if(len&(FLASH_PAGE_SIZE-1)){NbrOfPage++;}/*å¦‚æœå­—èŠ‚æ•°å¤§äºå½“å‰å—æ•°*/
     
     for(EraseCounter = 0; (EraseCounter < NbrOfPage) && (FLASHStatus == FLASH_COMPLETE); EraseCounter++)
     {
@@ -94,12 +94,12 @@ int32_t bsp_flash_erase		 (uint32_t address,uint32_t len)
 uint8_t test_buffer[]={"Stm32f103 bsp_flash"};
 
 /**********************
-//ÉèÖÃ FLASH ±£´æµØÖ·(±ØĞëÎªÅ¼Êı£¬ÇÒÆäÖµÒª´óÓÚ±¾´úÂëËùÕ¼ÓÃ FLASH µÄ´óĞ¡+0X08000000)
-//±¾ÏîÄ¿ µÄMCU     falsh ×Ü´óĞ¡ÓĞ 512k  
+//è®¾ç½® FLASH ä¿å­˜åœ°å€(å¿…é¡»ä¸ºå¶æ•°ï¼Œä¸”å…¶å€¼è¦å¤§äºæœ¬ä»£ç æ‰€å ç”¨ FLASH çš„å¤§å°+0X08000000)
+//æœ¬é¡¹ç›® çš„MCU     falsh æ€»å¤§å°æœ‰ 512k  
 //address 0x08000000
-//address 0x08005c00 ÒÑÓÃµ½  23k
-//address 0x08070000 ¿ª±ÙµÄsave_addr µØÖ·
-//address 0x08080000 end save_addr µØÖ·
+//address 0x08005c00 å·²ç”¨åˆ°  23k
+//address 0x08070000 å¼€è¾Ÿçš„save_addr åœ°å€
+//address 0x08080000 end save_addr åœ°å€
 ***********************/
 int32_t demo_flash(void)
 {
@@ -112,12 +112,12 @@ int32_t demo_flash(void)
 //    bsp_flash_read(FLASH_SAVE_ADDR,read_buffer,sizeof(test_buffer));
 //    if(strcmp((const char*)test_buffer,(const char*)read_buffer) == 0)
 //    {
-//	   printf("¶şÕßÏàµÈ %.*s\n", sizeof(test_buffer), read_buffer); 
+//	   printf("äºŒè€…ç›¸ç­‰ %.*s\n", sizeof(test_buffer), read_buffer); 
 //	   return -1;
 //    }
 //	else
 //	{
-//		printf("¶şÕß²»ÏàµÈ%.*s\n", sizeof(test_buffer), read_buffer); 
+//		printf("äºŒè€…ä¸ç›¸ç­‰%.*s\n", sizeof(test_buffer), read_buffer); 
 //		return 0;
 //	}
 //	for (i = 1; i < 33; ++i)
