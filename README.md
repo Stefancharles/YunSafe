@@ -1,7 +1,7 @@
 # YunSafe
-This a IOT_project about Safe. 
+7.09-7.10学习记录 
 ----------
-## wifi模块说明
+## wifi模块记录
 ## TCP设备接入协议
 ### 1.说明
 >* 该文档上的协议基于TCP，协议全部以JSON格式定义。
