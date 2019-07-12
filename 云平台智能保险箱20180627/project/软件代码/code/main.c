@@ -42,41 +42,6 @@
 	lcd_clr_row(row);\
 	lcd_write(row, colum, buf, strlen(buf));}while(0)
 
-
-
-#if 0
-	//MEMSDataTypedef 鍙傛暟
-#define ADC_CHANNEL_NUM		5
-typedef struct
-{
-	unsigned short theshold;
-	unsigned short static_ADCValue[ADC_CHANNEL_NUM];
-}MEMSDataTypedef;
-enum 
-{
-	MENU_IDLE,
-	MENU_ADD_DIGI_PWD,
-	MENU_ID_CARD_PWD,
-	MENU_MEMS,
-	MENU_ALERT_CLEAR
-}MENU_STATUS;
-
-enum
-{
-	PWD_ERROR,
-	PWD_SUCCESS,
-}PWD_STATUS;
-
-enum
-{
-	EEP_SAVE_FLAG = 0,
-	EEP_DIGIT_PWD_OFFSET = 7,
-	EEP_DIGIT_PWD_START = 8,
-	EEP_ID_CARD_PWD_OFFSET = 71,
-	EEP_ID_CARD_PWD_START = 72,
-	EEP_MEMS_START = 112,
-}EEP_MAP;
-#endif
 extern uint8_t MEMS_ALERT;
 extern uint16_t mems_theshold_val;
 extern  unsigned char time_show[10];
@@ -87,276 +52,10 @@ uint8_t adc_nofify_rank = 0;
 uint32_t TimeCount=0;//系统时基
 
 char menuStatus = MENU_IDLE;
-//digit password
-//#define MAX_DIGIT_PWD_NUM 5//鍙瓨鍌ㄧ殑瀵嗙爜涓暟
-//#define DIGIT_PWD_LEN 6//鏁板瓧瀵嗙爜闀垮害
-//unsigned char digitPwd[MAX_DIGIT_PWD_NUM][DIGIT_PWD_LEN];//鏁板瓧瀵嗙爜缂撳瓨
-//unsigned char digitPwd_offset = 0;//瀵嗙爜淇濆瓨鍦ㄧ紦瀛樹腑鐨勪綅缃�
-//unsigned char curDigitPwd[DIGIT_PWD_LEN];//褰撳墠杈撳叆鐨勫瘑鐮�
-//unsigned char curDigitPwd_offset = 0;//褰撳墠杈撳叆瀵嗙爜鍒扮鍑犱綅
-//LF id card password
-//#define MAX_ID_CARD_PWD_NUM 5//鍙瓨鍌ㄧ殑IDcard瀵嗙爜涓暟
-//#define ID_CARD_PWD_LEN 8//id card瀵嗙爜闀垮害
-//unsigned char idCardPwd[MAX_ID_CARD_PWD_NUM][ID_CARD_PWD_LEN];//id card瀵嗙爜缂撳瓨
-//unsigned char idCardPwd_offset = 0;//瀵嗙爜淇濆瓨鍦ㄧ紦瀛樹腑鐨勪綅缃�
-//unsigned char curIdCardPwd[ID_CARD_PWD_LEN];//褰撳墠杈撳叆鐨勫瘑鐮�
 
-//MEMSDataTypedef memsData = 
-//{
-//	.static_ADCValue[0] = 1000,
-//	.static_ADCValue[1] = 2000,
-//	.static_ADCValue[2] = 1000,
-//};
 unsigned char lcdRefresh = 1;
 unsigned char isAlert = 0;//报警标志
 
-#if 0
-void clearPwdCache(void)
-{
-	curDigitPwd_offset = 0;
-	memset(curDigitPwd, 0, DIGIT_PWD_LEN);
-	memset(curIdCardPwd, 0, ID_CARD_PWD_LEN);
-}
-int isRightPwd_Digit(unsigned char pwd[],int len)
-{
-	int i;
-	if(len != DIGIT_PWD_LEN)
-	{
-		return PWD_ERROR;
-	}
-	for(i=0; i < MAX_DIGIT_PWD_NUM; i++)
-	{
-		if(memcmp(pwd, digitPwd[i], DIGIT_PWD_LEN) == 0)
-		{
-			break;
-		}
-	}
-	if(i < MAX_DIGIT_PWD_NUM)
-	{
-		return PWD_SUCCESS;
-	}
-	else
-	{
-		return PWD_ERROR;
-	}
-}
-
-
-int isRightPwd_IdCard(unsigned char pwd[],int len)
-{
-	int i;
-	if(len != ID_CARD_PWD_LEN)
-		return PWD_ERROR;
-	for(i=0; i < MAX_ID_CARD_PWD_NUM; i++)
-	{
-		if(memcmp(pwd, idCardPwd[i], ID_CARD_PWD_LEN) == 0)
-			break;
-	}
-	if(i < MAX_ID_CARD_PWD_NUM)
-	{	
-		return PWD_SUCCESS;
-	}
-	else
-	{
-		return PWD_ERROR;
-	}
-}
-
-/*
-* @brief  paramInit
-* @param  none
-* @note  1.鍙傛暟鍒濆鍖�
-       2.鏄惁鍒濇涓婄數  绗竴娆′笂鐢� 閲嶇疆瀵嗙爜 
-* @Date:2018.6.19
-* @author:zhao
-* @return:none
-*/
-void paramInit(void)
-{
-	unsigned char save_flag;
-	unsigned short NumByteToRead = 1;
-	unsigned short NumByteToWrite;
-	int i;
-/*
-  * @note  1.鍙傛暟鍒濆鍖�
-           2.sEE_ReadBuffer  鑾峰彇   鍒濆鍖栧彧 濡傛灉鏄涓€娆′笂鐢� 0 byte 鍐欏叆 0xA3
-           3.
-  * @Date:2018.6.19
-  * @author:zhao
-*/
-	sEE_ReadBuffer(&save_flag, EEP_SAVE_FLAG, &NumByteToRead);
-	DEBUG("%x", save_flag);
-	if(save_flag != 0xA3)
-	{
-		save_flag = 0xA3;
-		NumByteToWrite = 1;
-		sEE_WriteBuffer(&save_flag, EEP_SAVE_FLAG, NumByteToWrite);
-		//digit pwd
-		for(i=0; i < MAX_DIGIT_PWD_NUM; i++)
-		{
-			if(i == 0)
-			{
-				memset(digitPwd[i], 0, DIGIT_PWD_LEN);//default pwd 000000
-			}
-			else
-			{
-				memset(digitPwd[i], 0xEE, DIGIT_PWD_LEN);
-			}
-		}
-		NumByteToWrite = 1;
-		sEE_WriteBuffer(&digitPwd_offset, EEP_DIGIT_PWD_OFFSET, NumByteToWrite);
-		NumByteToWrite = MAX_DIGIT_PWD_NUM * DIGIT_PWD_LEN;
-		sEE_WriteBuffer((unsigned char *)digitPwd[0], EEP_DIGIT_PWD_START, NumByteToWrite);
-		//id card pwd
-		for(i=0; i < MAX_ID_CARD_PWD_NUM; i++)
-		{
-		  memset(idCardPwd[i], 0xEE, ID_CARD_PWD_LEN);
-		}
-		NumByteToWrite = 1;
-		sEE_WriteBuffer(&idCardPwd_offset, EEP_ID_CARD_PWD_OFFSET, NumByteToWrite);
-		NumByteToWrite = MAX_ID_CARD_PWD_NUM * ID_CARD_PWD_LEN;
-		sEE_WriteBuffer((unsigned char *)idCardPwd[0], EEP_ID_CARD_PWD_START, NumByteToWrite);
-		//mems
-		memsData.theshold = 50;
-		//memset(&memsData.static_ADCValue[0], 0, sizeof(memsData.static_ADCValue));
-		NumByteToWrite = sizeof(MEMSDataTypedef);
-		
-		sEE_WriteBuffer((unsigned char *)&memsData, EEP_MEMS_START, NumByteToWrite);
-	}
-}
-
-int saveDigitPwd(unsigned char pwd[],int len)
-{	
-	unsigned short data_len = 0;
-	//static unsigned char pwd_offset = 0;
-	if(digitPwd_offset>= MAX_DIGIT_PWD_NUM)
-		digitPwd_offset = 0;	
-	memset(digitPwd[digitPwd_offset], 0xff, DIGIT_PWD_LEN);
-	memcpy(digitPwd[digitPwd_offset], pwd, len);
-	digitPwd_offset++;
-	data_len = 1;
-	sEE_WriteBuffer(&digitPwd_offset, EEP_DIGIT_PWD_OFFSET, data_len);
-	data_len = MAX_DIGIT_PWD_NUM * DIGIT_PWD_LEN;
-	sEE_WriteBuffer((unsigned char *)&digitPwd[0][0], EEP_DIGIT_PWD_START, data_len);
-	return 0;
-}
-
-
-/*
-  * @brief  readDigitPwd 璇诲彇鏁板瓧瀵嗙爜
-  * @param  none
-  * @note  1.鍙傛暟鍒濆鍖�
-           2.鍒嗛厤鍐呭瓨 calloc(128,sizeof(char))
-           3.鑾峰彇褰撳墠缂撳瓨浣嶇疆
-           4.digitPwd缂撳瓨鍐橣F
-           5.灏哾igitPwd缂撳瓨鍐欏叆 debug_buff  鎵撳嵃 瀵嗙爜  strcat 涓茶仈瀛楃涓�
-           6.free 閲婃斁鍐呭瓨
-  * @Date:2018.6.19
-  * @author:zhao
-  * @return:(unsigned char **)digitPwd  鎸囬拡鍦板潃
-*/
-unsigned char **readDigitPwd(void)
-{	
-	int i,j;
-	unsigned short data_len = 0;
-	char *debug_buf = calloc(128, sizeof(char));
-	char temp_buf[8];	
-	data_len = 1;
-	sEE_ReadBuffer(&digitPwd_offset, EEP_DIGIT_PWD_OFFSET, &data_len);
-	
-	memset(digitPwd[0], 0xff, MAX_DIGIT_PWD_NUM * DIGIT_PWD_LEN);
-	data_len = MAX_DIGIT_PWD_NUM * DIGIT_PWD_LEN;
-	sEE_ReadBuffer(digitPwd[0], EEP_DIGIT_PWD_START, &data_len);
-
-
-	for(i=0; i < MAX_DIGIT_PWD_NUM; i++)
-	{
-		for(j=0; j < DIGIT_PWD_LEN; j++)
-		{
-			sprintf(temp_buf, "%x ", digitPwd[i][j]);
-			strcat(debug_buf, temp_buf);
-		}
-		strcat(debug_buf, "\r\n");
-	}
-	DEBUG("digitpwd: %s", debug_buf);
-	delay_ms(5);
-	free(debug_buf);
-	
-	return (unsigned char **)digitPwd;
-
-}
-
-
-int saveIdCardPwd(unsigned char pwd[],int len)
-{	
-	unsigned short data_len = 0;
-	//static unsigned char pwd_offset = 0;
-	if(idCardPwd_offset>= MAX_ID_CARD_PWD_NUM)
-		idCardPwd_offset = 0;	
-	memset(idCardPwd[idCardPwd_offset], 0xff, ID_CARD_PWD_LEN);
-	memcpy(idCardPwd[idCardPwd_offset], pwd, len);
-	idCardPwd_offset++;
-	data_len = 1;
-	sEE_WriteBuffer(&idCardPwd_offset, EEP_ID_CARD_PWD_OFFSET, data_len);
-	data_len = MAX_ID_CARD_PWD_NUM * ID_CARD_PWD_LEN;
-	sEE_WriteBuffer((unsigned char *)&idCardPwd[0][0], EEP_ID_CARD_PWD_START, data_len);
-	return 0;
-}
-
-
-int deleteIdCardPwd(unsigned char pwd[],int len)
-{	
-	
-	int i;
-	unsigned short data_len;
-	if(len != ID_CARD_PWD_LEN)
-		return PWD_ERROR;
-	for(i=0; i < MAX_ID_CARD_PWD_NUM; i++)
-	{
-		if(memcmp(pwd, idCardPwd[i], ID_CARD_PWD_LEN) == 0)
-		{
-			memset(idCardPwd[i], 0xff, ID_CARD_PWD_LEN);
-			break;
-		}
-	}
-	if(i < MAX_ID_CARD_PWD_NUM)
-	{
-		data_len = MAX_ID_CARD_PWD_NUM * ID_CARD_PWD_LEN;
-		sEE_WriteBuffer((unsigned char *)&idCardPwd[0][0], EEP_ID_CARD_PWD_START, data_len);
-	}
-	return 0;
-}
-
-unsigned char **readIdCardPwd(void)
-{	
-	unsigned short data_len = 0;
-	data_len = 1;
-	sEE_ReadBuffer(&idCardPwd_offset, EEP_ID_CARD_PWD_OFFSET, &data_len);
-	
-	memset(idCardPwd[0], 0xff, MAX_ID_CARD_PWD_NUM * ID_CARD_PWD_LEN);
-	data_len = MAX_ID_CARD_PWD_NUM * ID_CARD_PWD_LEN;
-	sEE_ReadBuffer(idCardPwd[0], EEP_ID_CARD_PWD_START, &data_len);	
-	return (unsigned char **)idCardPwd;
-
-}
-
-void saveMEMSData(void)
-{
-	unsigned short NumByteToWrite;
-	NumByteToWrite = sizeof(MEMSDataTypedef);
-	sEE_WriteBuffer((unsigned char *)&memsData, EEP_MEMS_START, NumByteToWrite);
-	
-	DEBUG("MEMS theshold %d, ADC Val:%d %d %d",memsData.theshold, memsData.static_ADCValue[0], memsData.static_ADCValue[1], memsData.static_ADCValue[2]);
-}
-void readMEMSData(void)
-{
-	unsigned short data_len;
-	data_len = sizeof(MEMSDataTypedef);
-	sEE_ReadBuffer((unsigned char *)&memsData, EEP_MEMS_START, &data_len);
-	DEBUG("MEMS theshold %d, ADC Val:%d %d %d",memsData.theshold, memsData.static_ADCValue[0], memsData.static_ADCValue[1], memsData.static_ADCValue[2]);
-}
-
-#endif
 #define LIGHT_PORT GPIOD
 #define LIGHT_PIN GPIO_Pin_12
 
@@ -395,14 +94,20 @@ void menuIdle_Handle(void)
 //	uint8_t tryCount=0;
 	uint8_t buf[8];
 
-	//lcd
+/******************************************************************************
+* @file    lcdRefresh 
+* @author  unknow
+* @version V1.0.0
+* @date    2019.07.12
+* @brief   LCD显示，已经输入部分使用*填充，未输入的部分使用_填充
+******************************************************************************/
 	if(lcdRefresh)
 	{
 		lcdRefresh = 0;
 		/*0*/
 		LCD_PRINT(0,0,lcd_show,"1 Input pwd:");
 		/*1*/
-		memset(lcd_show, 0, sizeof(lcd_show));				
+		memset(lcd_show, 0, sizeof(lcd_show));//作用？				
 		for(i=0; i < DIGIT_PWD_LEN; i++)
 		{
 			if(i < curDigitPwd_offset)
@@ -1278,12 +983,12 @@ void menuAlertClear_Handle(void)
 	{
 		lcdRefresh = 0;
 
-		LCD_PRINT(0,0,lcd_show,"5 Input pwd:");
-		memset(lcd_show, 0, sizeof(lcd_show));
+		LCD_PRINT(0,0,lcd_show,"5 Input pwd:");//***___
+		memset(lcd_show, 0, sizeof(lcd_show));//
 		for(i=0; i < DIGIT_PWD_LEN; i++)
 		{
 			if(i < curDigitPwd_offset)
-				strcat(lcd_show, "*");
+				strcat(lcd_show, "*");//****__
 			else
 				strcat(lcd_show, "_");
 		}

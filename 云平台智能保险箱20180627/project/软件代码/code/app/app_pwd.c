@@ -317,7 +317,7 @@ unsigned char **read_IdCardPwd(void)
 //	sEE_ReadBuffer(&idCardPwd_offset, EEP_ID_CARD_PWD_OFFSET, &data_len);
 	bsp_flash_read(EEP_ID_CARD_PWD_OFFSET_ADDRESS, &idCardPwd_offset, data_len);
 	memset(idCardPwd[0], 0xff, MAX_ID_CARD_PWD_NUM * ID_CARD_PWD_LEN);
-	data_len = MAX_ID_CARD_PWD_NUM * ID_CARD_PWD_LEN;
+	data_len = MAX_ID_CARD_PWD_NUM * ID_CARD_PWD_LEN;//id card密码缓存
 //	sEE_ReadBuffer(idCardPwd[0], EEP_ID_CARD_PWD_START, &data_len);	
 	bsp_flash_read(EEP_ID_CARD_PWD_START_ADDRESS, idCardPwd[0], data_len);
 	return (unsigned char **)idCardPwd;
